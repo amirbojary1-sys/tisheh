@@ -37,10 +37,12 @@ class Doctor extends Command
         try {
             DB::connection()->getPdo();
             $check('Database connection', true);
-            foreach (['users', 'roles', 'sessions', 'cache', 'material_orders', 'otp_challenges', 'demo_payment_attempts'] as $table) {
+            foreach (['users', 'roles', 'sessions', 'cache', 'material_orders', 'otp_challenges', 'demo_payment_attempts', 'role_user', 'job_category_user', 'portfolio_entries'] as $table) {
                 $check('Table: '.$table, Schema::hasTable($table), 'Run migrations against the intended database');
             }
             $check('r0.4 schema', Schema::hasColumn('material_orders', 'reservation_expires_at'), 'php artisan migrate --force');
+            $check('Network identity/profile schema', Schema::hasColumns('user_profiles', ['national_id', 'national_id_fingerprint', 'contact_phone', 'private_address', 'postal_code', 'identity_revision', 'directory_status', 'directory_revision']), 'Run the additive network migration');
+            $check('Identity review permission seeded', DB::table('permissions')->where('name', 'identity.review')->exists(), 'php artisan db:seed --force');
             $check('Roles seeded', Schema::hasTable('roles') && DB::table('roles')->count() >= 4, 'php artisan db:seed --force');
             $check('Active administrator', Schema::hasTable('users') && DB::table('users')->join('roles', 'roles.id', '=', 'users.role_id')->where('roles.name', 'admin')->where('users.status', 'active')->exists(), 'php artisan tisheh:admin');
         } catch (\Throwable $e) {

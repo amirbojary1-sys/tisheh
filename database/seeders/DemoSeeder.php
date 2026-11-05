@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\AuditService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class DemoSeeder extends Seeder
@@ -57,6 +58,14 @@ class DemoSeeder extends Seeder
             ] as [$name,$cat,$brand,$price,$unit,$stock,$min,$shipping,$image]) {
                 $p = MaterialProduct::firstOrCreate(['name' => $name, 'brand' => $brand, 'user_id' => $users['seller']->id], ['material_category_id' => MaterialCategory::where('slug', $cat)->sole()->id, 'specifications' => 'این محصول، موجودی و قیمت، داده آزمایشی هستند و پیشنهاد فروش واقعی نیستند. مشخصات فنی برای نمایش گردش کار مقایسه ثبت شده‌اند. تصاویر شماتیک هستند.', 'price' => $price, 'unit' => $unit, 'stock' => $stock, 'minimum_order' => $min, 'shipping_cost' => $shipping, 'sale_terms' => 'صرفاً برای تست؛ معامله واقعی انجام نشود. حمل پس از هماهنگی و استعلام نهایی.', 'city' => 'تهران', 'status' => 'published']);
                 $p->images()->firstOrCreate(['path' => 'samples/'.$image]);
+            }
+            // Explicit local-only fixture; never overwrite an existing professional profile.
+            if (Schema::hasColumn('user_profiles', 'headline')) {
+                $profile = $users['worker']->profile;
+                if ($profile->headline === null) {
+                    $profile->update(['headline' => 'برق‌کار ساختمان (داده آزمایشی)', 'activity_type' => 'specialist', 'experience_years' => 0, 'availability' => 'available', 'bio' => 'این پروفایل صرفاً نمونه محلی برای آزمایش ارتباط کارفرما و متخصص است؛ شخص یا خدمات واقعی نیست و صلاحیت حرفه‌ای بررسی نشده است.', 'directory_enabled' => true, 'directory_status' => 'published', 'directory_revision' => 1, 'directory_review_note' => 'پروفایل نمونه محلی؛ بررسی واقعی یا استعلام انجام نشده است.', 'public_contact' => false]);
+                    $users['worker']->skills()->syncWithoutDetaching(JobCategory::where('slug', 'electric')->pluck('id'));
+                }
             }
             app(AuditService::class)->record('demo.seeded', $users['admin']);
         });

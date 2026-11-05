@@ -16,5 +16,5 @@ return Application::configure(basePath: dirname(__DIR__))
         // Production: set TRUSTED_PROXIES to only your load balancer addresses.
         $middleware->replace(TrustProxies::class, App\Http\Middleware\TrustProxies::class);
     })->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->dontFlash(['current_password', 'password', 'password_confirmation']);
+        $exceptions->dontFlash(['current_password', 'password', 'password_confirmation', 'national_id', 'contact_phone', 'private_address', 'postal_code']);
     })->create();

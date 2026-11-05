@@ -1,0 +1,21 @@
+
+   INFO  Rolling back migrations.  
+
+  2026_11_05_000002_add_network_profiles_and_roles .............. 38.50ms DONE
+
+
+   INFO  Running migrations.  
+
+  2026_11_05_000002_add_network_profiles_and_roles ............. 191.68ms DONE
+
+
+   INFO  Rolling back migrations.  
+
+  2026_11_05_000002_add_network_profiles_and_roles .............. 33.23ms DONE
+
+
+   INFO  Running migrations.  
+
+  2026_11_05_000002_add_network_profiles_and_roles ............. 179.93ms DONE
+
+PASS legacy upgrade, role backfill, rollback and reapply; preserved users/jobs/products: 4	6	6

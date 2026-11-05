@@ -2,13 +2,13 @@
 <article class="product-card">
     <a href="{{ route('products.show', $product) }}" class="product-image">
         @if($product->images->first())
-            <img src="{{ asset('storage/'.$product->images->first()->path) }}" alt="{{ $product->name }}" loading="lazy">
+            <x-product-photo :image="$product->images->first()" :alt="$product->name"/>
         @else
             <div class="material-art art-{{ $product->category->slug }}"><x-icon name="cube" size="76" /><span>{{ $product->category->name }}</span></div>
         @endif
         <span class="stock-tag">{{ $product->stock ? 'موجود' : 'ناموجود' }}</span>
     </a>
-    <div class="product-body">
+    <div class="product-body">@if($product->images->first() && str_starts_with($product->images->first()->path,'samples/'))<small class="sample-image-label">تصویر نمایشی محصول</small>@endif
         <small>{{ $product->brand }} <span class="separator">|</span> {{ $product->category->name }}</small>
         <a class="card-title" href="{{ route('products.show', $product) }}">{{ $product->name }}</a>
         <div class="meta"><span><x-icon name="pin" size="15" />{{ $product->city }}</span><span>{{ $product->user->location?->name ?? $product->user->full_name }}</span></div>

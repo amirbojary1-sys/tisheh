@@ -1,6 +1,14 @@
 @props(['name'=>'arrow','size'=>22])
 <svg width="{{ $size }}" height="{{ $size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 @switch($name)
+@case('eye')<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>@break
+@case('filter')<path d="M3 4h18l-7 8v7l-4 2v-9Z"/>@break
+@case('chevron')<path d="m6 9 6 6 6-6"/>@break
+@case('arrow-right')<path d="M4 12h16m-6-6 6 6-6 6"/>@break
+@case('bricks')<path d="M3 3h18v18H3ZM3 9h18M3 15h18M9 3v6M15 9v6M9 15v6"/>@break
+@case('pipe')<path d="M3 3h6v8h12v6H9a6 6 0 0 1-6-6ZM2 2h8M20 10v8"/>@break
+@case('welding')<path d="m5 3 14 0 2 10-9 9-9-9ZM7 7h10v6H7ZM8 18l4-3 4 3"/>@break
+@case('brush')<path d="m14 3 7 7-10 10-7 1 1-7ZM11 6l7 7M5 14l5 5"/>@break
 @case('search')<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/>@break
 @case('home')<path d="m3 10 9-7 9 7v11h-6v-7H9v7H3Z"/>@break
 @case('briefcase')<rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V3h8v4M3 12c5 4 13 4 18 0M12 12v4"/>@break

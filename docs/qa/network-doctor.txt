@@ -1,0 +1,49 @@
++--------+--------------------------------------+------------------+
+| Result | Check                                | Action if failed |
++--------+--------------------------------------+------------------+
+| OK     | PHP >= 8.2                           | —                |
+| OK     | PHP extension: pdo                   | —                |
+| OK     | PHP extension: pdo_mysql             | —                |
+| OK     | PHP extension: mbstring              | —                |
+| OK     | PHP extension: openssl               | —                |
+| OK     | PHP extension: fileinfo              | —                |
+| OK     | PHP extension: ctype                 | —                |
+| OK     | PHP extension: tokenizer             | —                |
+| OK     | PHP extension: xml                   | —                |
+| OK     | PHP extension: dom                   | —                |
+| OK     | PHP extension: gd                    | —                |
+| OK     | PHP extension: session               | —                |
+| OK     | PHP extension: filter                | —                |
+| OK     | GD WebP                              | —                |
+| OK     | APP_KEY valid                        | —                |
+| OK     | Writable: storage                    | —                |
+| OK     | Writable: storage/framework/views    | —                |
+| OK     | Writable: storage/framework/sessions | —                |
+| OK     | Writable: storage/framework/cache    | —                |
+| OK     | Writable: bootstrap/cache            | —                |
+| OK     | Database connection                  | —                |
+| OK     | Table: users                         | —                |
+| OK     | Table: roles                         | —                |
+| OK     | Table: sessions                      | —                |
+| OK     | Table: cache                         | —                |
+| OK     | Table: material_orders               | —                |
+| OK     | Table: otp_challenges                | —                |
+| OK     | Table: demo_payment_attempts         | —                |
+| OK     | Table: role_user                     | —                |
+| OK     | Table: job_category_user             | —                |
+| OK     | Table: portfolio_entries             | —                |
+| OK     | r0.4 schema                          | —                |
+| OK     | Network identity/profile schema      | —                |
+| OK     | Identity review permission seeded    | —                |
+| OK     | Roles seeded                         | —                |
+| OK     | Active administrator                 | —                |
+| OK     | Document root exists                 | —                |
+| OK     | Private app is outside document root | —                |
+| OK     | Not public: .env                     | —                |
+| OK     | Not public: composer.json            | —                |
+| OK     | Not public: artisan                  | —                |
+| OK     | Not public: vendor                   | —                |
+| OK     | Not public: tisheh-source.zip        | —                |
+| OK     | Public launcher                      | —                |
++--------+--------------------------------------+------------------+
+Manual checks still required: web PHP matches CLI; HTTPS; /storage image loading; cron; backup/restore; domain access controls.

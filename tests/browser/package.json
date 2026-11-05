@@ -1,0 +1,13 @@
+{
+  "name": "tisheh-craft-browser-checks",
+  "private": true,
+  "scripts": {
+    "test:visual": "node craft-visual.cjs",
+    "test:e2e": "node craft-e2e.cjs",
+    "test:otp": "node craft-otp.cjs",
+    "test:network": "node network-e2e.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.64.1"
+  }
+}

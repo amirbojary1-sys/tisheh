@@ -32,6 +32,7 @@ class AdminService
             if (isset($data['city'])) {
                 $u->profile()->update(['city' => $data['city']]);
             }
+            app(DirectoryService::class)->invalidate($u);
             if ($u->status === 'suspended') {
                 DB::table('sessions')->where('user_id', $u->id)->delete();
             }app(AuditService::class)->record('user.status_changed', $u, ['before' => $before, 'after' => ['status' => $u->status, 'role_id' => $u->role_id], 'reason' => $data['reason'] ?? null]);

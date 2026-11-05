@@ -41,14 +41,29 @@ class User extends Authenticatable
         return $this->hasOne(SellerLocation::class);
     }
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function skills()
+    {
+        return $this->belongsToMany(JobCategory::class, 'job_category_user');
+    }
+
+    public function portfolioEntries()
+    {
+        return $this->hasMany(PortfolioEntry::class);
+    }
+
     public function hasRole(string $name): bool
     {
-        return $this->role?->name === $name;
+        return $this->role?->name === $name || ($this->relationLoaded('roles') ? $this->roles->contains('name', $name) : $this->roles()->where('name', $name)->exists());
     }
 
     public function hasPermission(string $name): bool
     {
-        return $this->status === 'active' && $this->role?->permissions()->where('name', $name)->exists();
+        return $this->status === 'active' && (($this->role?->permissions()->where('name', $name)->exists() ?? false) || $this->roles()->whereHas('permissions', fn ($q) => $q->where('name', $name))->exists());
     }
 
     public function getFullNameAttribute(): string

@@ -1,0 +1,3 @@
+<?php
+
+return ['activities' => ['worker' => 'کارگر', 'specialist' => 'متخصص / استادکار', 'contractor' => 'پیمانکار', 'engineer' => 'مهندس', 'architect' => 'معمار', 'technician' => 'تکنسین', 'supervisor' => 'سرپرست کارگاه', 'builder' => 'سازنده', 'supplier' => 'تأمین‌کننده', 'other' => 'سایر فعالان ساختمان'], 'availability' => ['available' => 'آماده همکاری', 'busy' => 'مشغول پروژه', 'unavailable' => 'فعلاً غیرفعال'], 'identity_statuses' => ['not_submitted' => 'ارسال نشده', 'pending' => 'در انتظار بررسی اداری', 'reviewed' => 'بررسی اداری انجام شده؛ بدون استعلام رسمی', 'rejected' => 'نیازمند اصلاح'], 'directory_statuses' => ['draft' => 'پیش‌نویس / خصوصی', 'pending' => 'در انتظار بررسی', 'published' => 'منتشرشده', 'rejected' => 'نیازمند اصلاح']];

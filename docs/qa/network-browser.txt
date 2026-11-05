@@ -1,0 +1,13 @@
+
+> test:network
+> node tests/browser/network-e2e.cjs
+
+PASS multi-role signup and optional private identity
+PASS private review, audit and invalidation after identity edit
+PASS portfolio metadata edit
+PASS moderated professional profile, sanitized private portfolio and employer chat
+PASS professional report and admin response
+PASS new-page responsive checks at 320/390/768/1440
+PASS opt-out immediately hides public profile
+VISITS 57 BROWSER_ERRORS []
+ALL NETWORK CHECKS PASSED

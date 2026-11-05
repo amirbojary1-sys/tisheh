@@ -1,4 +1,8 @@
-# TISHEH | تیشه — r0.4
+# TISHEH | تیشه — Network 1
+
+> **Current delivery — Network 1:** multi-role accounts, optional encrypted identity fields, moderated professional directory and private portfolio images. **185 tests / 887 assertions pass on each of SQLite and MariaDB (mysql driver)**; 207 planned browser visits/checks. Five Symfony dependencies security-patched; Composer audit reports no known advisories. Fresh empty-database SQL and migration upgrade included. [Current Persian delivery/SQL/upgrade guide](docs/NETWORK-DELIVERY.fa.md). Earlier counts below are historical.
+
+> **Previous UI revision (2026-11-05):** mobile-first black/gold redesign on GitHub baseline `3712167`, with real registration/job wizards and unchanged storage schema. **146 tests / 691 assertions passed on SQLite**; then-current browser checks covered 126 workflow visits plus a 24-visit public responsive matrix. Earlier engine/test counts below are historical. This UI revision has not been re-tested on MySQL/MariaDB or real cPanel hosting. See [historical UI delivery notes](docs/CRAFT-DESIGN.fa.md).
 
 **راهنمای کامل فارسی: [README.fa.md](README.fa.md)**
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
@@ -9,11 +10,13 @@ use App\Http\Controllers\DemoPaymentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\NetworkAdminController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\PublicImageController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
@@ -60,11 +63,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
         Route::get('/users/{user}', [AdminController::class, 'showUser'])->name('admin.users.show');
         Route::get('/listings/{type}', [AdminController::class, 'listings'])->name('admin.listings');
-        Route::patch('/listings/{type}/{id}', [AdminController::class, 'listingStatus'])->middleware('throttle:writes')->name('admin.listing.status');
+        Route::patch('/listings/{type}/{id}', [AdminController::class, 'listingStatus'])->middleware('throttle:writes')->whereNumber('id')->name('admin.listing.status');
         Route::get('/categories', [AdminController::class, 'categories'])->name('admin.categories');
         Route::post('/categories/{type}', [AdminController::class, 'category'])->middleware('throttle:writes')->name('admin.categories.store');
-        Route::put('/categories/{type}/{id}', [AdminController::class, 'category'])->middleware('throttle:writes')->name('admin.categories.update');
-        Route::delete('/categories/{type}/{id}', [AdminController::class, 'deleteCategory'])->middleware('throttle:writes')->name('admin.categories.delete');
+        Route::put('/categories/{type}/{id}', [AdminController::class, 'category'])->middleware('throttle:writes')->whereNumber('id')->name('admin.categories.update');
+        Route::delete('/categories/{type}/{id}', [AdminController::class, 'deleteCategory'])->middleware('throttle:writes')->whereNumber('id')->name('admin.categories.delete');
         Route::get('/reports', [AdminController::class, 'reports'])->name('admin.reports');
         Route::get('/reports/{report}', [AdminController::class, 'report'])->name('admin.reports.show');
         Route::patch('/reports/{report}', [AdminController::class, 'reviewReport'])->middleware('throttle:writes')->name('admin.reports.update');
@@ -78,7 +81,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/roles', [AdminController::class, 'roles'])->name('admin.roles');
         Route::get('/finance', [AdminController::class, 'finance'])->name('admin.finance');
 
-        Route::patch('/moderate/{type}/{id}', [AdminController::class, 'moderate'])->middleware('throttle:writes')->name('admin.moderate');
+        Route::patch('/moderate/{type}/{id}', [AdminController::class, 'moderate'])->middleware('throttle:writes')->whereNumber('id')->name('admin.moderate');
         Route::patch('/users/{user}', [AdminController::class, 'user'])->middleware('throttle:writes')->name('admin.user');
     });
 });
@@ -91,7 +94,7 @@ Route::get('/materials/{product}', [ProductController::class, 'show'])->name('pr
 Route::get('/pages/{slug}', [ContentController::class, 'show'])->name('content.show');
 Route::middleware('auth')->group(function () {
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
-    Route::post('/messages/start/{type}/{id}', [MessageController::class, 'start'])->middleware('throttle:writes')->name('messages.start');
+    Route::post('/messages/start/{type}/{id}', [MessageController::class, 'start'])->middleware('throttle:writes')->whereNumber('id')->name('messages.start');
     Route::get('/messages/{conversation}', [MessageController::class, 'show'])->name('messages.show');
     Route::post('/messages/{conversation}', [MessageController::class, 'send'])->middleware('throttle:writes')->name('messages.send');
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
@@ -123,3 +126,31 @@ Route::middleware('auth')->group(function () {
 Route::get('/storage/products/{file}', [PublicImageController::class, 'product'])->where('file', '[a-f0-9-]{36}\.webp');
 Route::get('/storage/samples/{file}', [PublicImageController::class, 'sample'])->where('file', '(?:cement|brick|steel|sand)\.svg');
 Route::get('/admin/system', [AdminController::class, 'system'])->middleware(['auth', 'permission:admin.access'])->name('admin.system');
+
+// Building network: supplemental roles, private identity data, opt-in moderated directory.
+Route::get('/professionals', [ProfessionalController::class, 'index'])->name('professionals.index');
+Route::get('/professionals/portfolio/{entry}/image', [ProfessionalController::class, 'image'])->whereNumber('entry')->name('professionals.portfolio.image');
+Route::get('/professionals/{user}', [ProfessionalController::class, 'show'])->whereNumber('user')->name('professionals.show');
+Route::middleware('auth')->group(function () {
+    Route::get('/account/new', [AccountController::class, 'actions'])->name('account.actions');
+    Route::get('/account/identity', [AccountController::class, 'identity'])->name('account.identity');
+    Route::put('/account/identity', [AccountController::class, 'updateIdentity'])->middleware('throttle:writes')->name('account.identity.update');
+    Route::post('/account/identity/submit', [AccountController::class, 'submitIdentity'])->middleware('throttle:writes')->name('account.identity.submit');
+    Route::get('/account/roles', [AccountController::class, 'roles'])->name('account.roles');
+    Route::put('/account/roles', [AccountController::class, 'updateRoles'])->middleware('throttle:writes')->name('account.roles.update');
+    Route::get('/account/professional', [ProfessionalController::class, 'edit'])->name('account.professional');
+    Route::put('/account/professional', [ProfessionalController::class, 'update'])->middleware('throttle:writes')->name('account.professional.update');
+    Route::post('/account/portfolio', [ProfessionalController::class, 'addPortfolio'])->middleware('throttle:writes')->name('account.portfolio.store');
+    Route::put('/account/portfolio/{entry}', [ProfessionalController::class, 'updatePortfolio'])->middleware('throttle:writes')->name('account.portfolio.update');
+    Route::delete('/account/portfolio/{entry}', [ProfessionalController::class, 'deletePortfolio'])->middleware('throttle:writes')->name('account.portfolio.delete');
+    Route::post('/applications/{application}/withdraw', [JobController::class, 'withdraw'])->middleware('throttle:writes')->name('applications.withdraw');
+    Route::middleware('permission:identity.review')->group(function () {
+        Route::get('/admin/identities', [NetworkAdminController::class, 'identities'])->name('admin.identities');
+        Route::get('/admin/identities/{user}', [NetworkAdminController::class, 'identity'])->name('admin.identities.show');
+        Route::post('/admin/identities/{user}', [NetworkAdminController::class, 'reviewIdentity'])->middleware('throttle:writes')->name('admin.identities.review');
+    });
+    Route::middleware('permission:admin.access')->group(function () {
+        Route::get('/admin/professionals', [NetworkAdminController::class, 'professionals'])->name('admin.professionals');
+        Route::post('/admin/professionals/{user}', [NetworkAdminController::class, 'reviewProfessional'])->middleware('throttle:writes')->name('admin.professionals.review');
+    });
+});

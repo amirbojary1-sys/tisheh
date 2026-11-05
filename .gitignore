@@ -26,3 +26,9 @@ Thumbs.db
 !.env.example
 /browser-credentials.txt
 /storage/app/public/products/
+
+/tests/browser/screenshots/
+/tests/browser/demo-credentials.txt
+
+/storage/app/private/portfolio/
+/database/exports/*.private.sql

@@ -23,7 +23,7 @@ class Format
 
     public static function status($s): string
     {
-        return ['awaiting_seller' => 'در انتظار تأیید فروشنده', 'confirmed' => 'تأییدشده', 'ready_to_ship' => 'آماده ارسال', 'shipped' => 'ارسال‌شده', 'delivered' => 'تحویل‌شده', 'unverified_external' => 'خارج از سامانه؛ تأییدنشده', 'open' => 'ثبت‌شده', 'reviewing' => 'در حال بررسی', 'resolved' => 'پاسخ داده‌شده', 'dismissed' => 'مختومه', 'in_review' => 'در حال بررسی آگهی', 'pending' => 'در انتظار بررسی', 'published' => 'منتشرشده', 'draft' => 'پیش‌نویس', 'rejected' => 'ردشده', 'completed' => 'تکمیل‌شده', 'cancelled' => 'لغوشده', 'inactive' => 'غیرفعال', 'accepted' => 'پذیرفته‌شده', 'active' => 'فعال', 'suspended' => 'مسدود'][$s] ?? $s;
+        return ['withdrawn' => 'انصراف‌داده', 'awaiting_seller' => 'در انتظار تأیید فروشنده', 'confirmed' => 'تأییدشده', 'ready_to_ship' => 'آماده ارسال', 'shipped' => 'ارسال‌شده', 'delivered' => 'تحویل‌شده', 'unverified_external' => 'خارج از سامانه؛ تأییدنشده', 'open' => 'ثبت‌شده', 'reviewing' => 'در حال بررسی', 'resolved' => 'پاسخ داده‌شده', 'dismissed' => 'مختومه', 'in_review' => 'در حال بررسی آگهی', 'pending' => 'در انتظار بررسی', 'published' => 'منتشرشده', 'draft' => 'پیش‌نویس', 'rejected' => 'ردشده', 'completed' => 'تکمیل‌شده', 'cancelled' => 'لغوشده', 'inactive' => 'غیرفعال', 'accepted' => 'پذیرفته‌شده', 'active' => 'فعال', 'suspended' => 'مسدود'][$s] ?? $s;
     }
 
     public static function digits($s): string

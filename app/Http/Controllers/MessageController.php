@@ -7,6 +7,7 @@ use App\Models\JobRequest;
 use App\Models\MaterialProduct;
 use App\Models\User;
 use App\Services\AuditService;
+use App\Services\DirectoryService;
 use App\Services\NoticeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +22,13 @@ class MessageController extends Controller
 
     public function start(Request $r, string $type, int $id)
     {
+        if ($type === 'professional') {
+            $professional = User::findOrFail($id);
+            abort_unless(app(DirectoryService::class)->visible($professional) && $professional->id !== auth()->id(), 404);
+            $thread = Conversation::firstOrCreate(['initiator_id' => auth()->id(), 'context_type' => 'professional', 'context_id' => $id], ['recipient_id' => $id, 'title' => 'همکاری با '.$professional->full_name]);
+
+            return redirect()->route('messages.show', $thread);
+        }
         abort_unless(in_array($type, ['job', 'product']), 404);
         $model = ($type === 'job' ? JobRequest::query() : MaterialProduct::query())->findOrFail($id);
         Gate::authorize('view', $model);

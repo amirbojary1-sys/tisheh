@@ -6,6 +6,7 @@ use App\Models\JobRequest;
 use App\Models\MaterialProduct;
 use App\Models\Report;
 use App\Services\AuditService;
+use App\Services\DirectoryService;
 use App\Services\NoticeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,15 +21,17 @@ class ReportController extends Controller
 
     public function create(Request $r)
     {
-        $d = $r->validate(['type' => 'nullable|in:job,product', 'id' => 'nullable|integer|required_with:type']);
+        $d = $r->validate(['type' => 'nullable|in:job,product,professional', 'id' => 'nullable|integer|required_with:type']);
 
         return view('reports.create', ['target' => $d]);
     }
 
     public function store(Request $r)
     {
-        $d = $r->validate(['subject_type' => 'required|in:job,product,support', 'subject_id' => 'nullable|integer|required_unless:subject_type,support', 'reason' => 'required|string|max:120', 'description' => 'required|string|min:15|max:4000']);
-        if ($d['subject_type'] !== 'support') {
+        $d = $r->validate(['subject_type' => 'required|in:job,product,professional,support', 'subject_id' => 'nullable|integer|required_unless:subject_type,support', 'reason' => 'required|string|max:120', 'description' => 'required|string|min:15|max:4000']);
+        if ($d['subject_type'] === 'professional') {
+            abort_unless(app(DirectoryService::class)->publicQuery()->whereKey($d['subject_id'])->exists(), 404);
+        } elseif ($d['subject_type'] !== 'support') {
             $m = ($d['subject_type'] === 'job' ? JobRequest::query() : MaterialProduct::query())->findOrFail($d['subject_id']);
             Gate::authorize('view', $m);
         } else {

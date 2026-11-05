@@ -65,7 +65,12 @@ class JobController extends Controller
             && ! DB::table('conversations')->where('context_type', 'job')->where('context_id', $job->id)->exists()
             && ! DB::table('reports')->where('subject_type', 'job')->where('subject_id', $job->id)->exists();
 
-        return view('jobs.show', compact('job', 'applications', 'canDelete'));
+        // Show the viewer's existing application instead of offering a duplicate submit.
+        $myApplication = auth()->check()
+            ? $job->applications()->where('user_id', auth()->id())->first()
+            : null;
+
+        return view('jobs.show', compact('job', 'applications', 'canDelete', 'myApplication'));
     }
 
     public function apply(ApplicationRequest $r, JobRequest $job, ListingService $s)
@@ -82,6 +87,12 @@ class JobController extends Controller
         Gate::authorize('update', $application->job);
         $data = $r->validate(['status' => 'required|in:accepted,rejected']);
         DB::transaction(function () use ($application, $data) {
+            $job = JobRequest::whereKey($application->job_request_id)->lockForUpdate()->firstOrFail();
+            $application = JobApplication::whereKey($application->id)->lockForUpdate()->firstOrFail();
+            abort_unless($job->status === 'published' && $application->status !== 'withdrawn', 409);
+            if ($data['status'] === 'accepted' && $application->status !== 'accepted' && $job->applications()->where('status', 'accepted')->count() >= $job->workers_count) {
+                throw ValidationException::withMessages(['status' => 'ظرفیت نیروی پذیرفته‌شده تکمیل است. ابتدا تعداد نیرو یا انتخاب‌های قبلی را اصلاح کنید.']);
+            }
             $application->update($data);
             app(AuditService::class)->record('application.reviewed', $application, $data);
             app(NoticeService::class)->send($application->user, 'نتیجه اعلام آمادگی', Format::status($application->status), '/dashboard');
@@ -122,5 +133,20 @@ class JobController extends Controller
         });
 
         return redirect()->route('jobs.index')->with('success', 'آگهی حذف شد.');
+    }
+
+    public function withdraw(JobApplication $application)
+    {
+        abort_unless($application->user_id === auth()->id(), 403);
+        DB::transaction(function () use ($application) {
+            $job = JobRequest::whereKey($application->job_request_id)->lockForUpdate()->firstOrFail();
+            $a = JobApplication::whereKey($application->id)->lockForUpdate()->firstOrFail();
+            abort_unless($job->status === 'published' && in_array($a->status, ['pending', 'accepted']), 409);
+            $a->update(['status' => 'withdrawn']);
+            app(AuditService::class)->record('application.withdrawn', $a);
+            app(NoticeService::class)->send($job->user, 'انصراف از همکاری', $job->title, '/jobs/'.$job->id);
+        });
+
+        return back()->with('success', 'انصراف ثبت شد و به کارفرما اطلاع داده شد.');
     }
 }

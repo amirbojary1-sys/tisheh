@@ -38,14 +38,14 @@ class AdminController extends Controller
     public function users(Request $r)
     {
         $d = $r->validate(['q' => 'nullable|string|max:100', 'role' => 'nullable|exists:roles,name', 'status' => 'nullable|in:active,suspended']);
-        $q = User::with('role', 'profile')->when($d['q'] ?? null, fn ($q, $v) => $q->where(fn ($q) => $q->where('name', 'like', '%'.$v.'%')->orWhere('last_name', 'like', '%'.$v.'%')->orWhere('mobile', 'like', '%'.$v.'%')))->when($d['role'] ?? null, fn ($q, $v) => $q->whereHas('role', fn ($q) => $q->where('name', $v)))->when($d['status'] ?? null, fn ($q, $v) => $q->where('status', $v));
+        $q = User::with('role', 'roles', 'profile')->when($d['q'] ?? null, fn ($q, $v) => $q->where(fn ($q) => $q->where('name', 'like', '%'.$v.'%')->orWhere('last_name', 'like', '%'.$v.'%')->orWhere('mobile', 'like', '%'.$v.'%')))->when($d['role'] ?? null, fn ($q, $v) => $q->where(fn ($q) => $q->whereHas('role', fn ($q) => $q->where('name', $v))->orWhereHas('roles', fn ($q) => $q->where('name', $v))))->when($d['status'] ?? null, fn ($q, $v) => $q->where('status', $v));
 
         return view('admin.users', ['users' => $q->latest()->paginate(20)->withQueryString(), 'roles' => Role::all()]);
     }
 
     public function showUser(User $user)
     {
-        $user->load('role', 'profile', 'location');
+        $user->load('role', 'roles', 'profile', 'location');
 
         return view('admin.user', ['user' => $user, 'logs' => AuditLog::with('user')->where(fn ($q) => $q->where('user_id', $user->id)->orWhere(fn ($q) => $q->where('subject_type', User::class)->where('subject_id', $user->id)))->latest('id')->take(20)->get(), 'jobCount' => JobRequest::where('user_id', $user->id)->count(), 'productCount' => MaterialProduct::where('user_id', $user->id)->count()]);
     }
@@ -180,7 +180,12 @@ class AdminController extends Controller
 
     public function roles()
     {
-        return view('admin.roles', ['roles' => Role::with('permissions')->withCount('users')->get()]);
+        $roles = Role::with('permissions')->get();
+        foreach ($roles as $role) {
+            $role->users_count = User::where(fn ($q) => $q->where('role_id', $role->id)->orWhereHas('roles', fn ($r) => $r->where('roles.id', $role->id)))->count();
+        }
+
+        return view('admin.roles', ['roles' => $roles]);
     }
 
     public function finance()

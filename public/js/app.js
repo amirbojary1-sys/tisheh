@@ -10,7 +10,14 @@ document.querySelectorAll("[data-global-search]").forEach((form) => {
 const updateRole = () => {
     const role = document.querySelector('input[name="role"]:checked')?.value;
     document.querySelectorAll("[data-role-field]").forEach((el) => {
-        const visible = el.dataset.roleField === role;
+        const extras = [
+            ...document.querySelectorAll(
+                'input[name="additional_roles[]"]:checked',
+            ),
+        ].map((x) => x.value);
+        const visible =
+            el.dataset.roleField === role ||
+            extras.includes(el.dataset.roleField);
         el.hidden = !visible;
         el.querySelectorAll("input").forEach((input) => {
             input.required = visible;
@@ -19,7 +26,7 @@ const updateRole = () => {
     });
 };
 document
-    .querySelectorAll('input[name="role"]')
+    .querySelectorAll('input[name="role"],input[name="additional_roles[]"]')
     .forEach((el) => el.addEventListener("change", updateRole));
 updateRole();
 const boxes = [...document.querySelectorAll('input[form="compare-form"]')];

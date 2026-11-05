@@ -1,0 +1,23 @@
+
+  Migration name .............................................. Batch / Status  
+  0001_01_01_000000_create_users_table ............................... [1] Ran  
+  0001_01_01_000001_create_cache_table ............................... [1] Ran  
+  0001_01_01_000002_create_jobs_table ................................ [1] Ran  
+  2026_10_24_000001_create_tisheh_foundation ......................... [1] Ran  
+  2026_10_24_000002_expand_administration_and_workflows .............. [1] Ran  
+  2026_10_24_000003_scope_order_idempotency .......................... [1] Ran  
+  2026_10_24_000004_add_demo_otp_and_gateway ......................... [1] Ran  
+  2026_10_24_000005_finalize_web_operations .......................... [1] Ran  
+  2026_11_05_000001_create_persistent_shopping_carts ................. [1] Ran  
+  2026_11_05_000002_add_network_profiles_and_roles ................... [1] Ran  
+
+
+   INFO  Nothing to migrate.  
+
+
+   INFO  Seeding database.  
+
+  Database\Seeders\ContentSeeder ..................................... RUNNING  
+  Database\Seeders\ContentSeeder ................................... 1 ms DONE  
+
+PASS final independent empty-database SQL restore; users=0; migrations=10; identity permission=1; construction categories=18; no pending migrations; reference reseed succeeds.

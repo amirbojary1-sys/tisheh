@@ -9,8 +9,9 @@
             <h1 class="page-title">{{ $product->name }}</h1>
             <p class="muted">{{ $product->brand }} · {{ $product->city }} · به‌روزرسانی {{ \App\Support\Format::date($product->updated_at) }}</p>
             @foreach($product->images as $image)
-                <img class="detail-image" src="{{ asset('storage/'.$image->path) }}" alt="{{ $product->name }}" loading="lazy">
+                <x-product-photo :image="$image" :alt="$product->name" class="detail-image"/>
             @endforeach
+            @if($product->images->contains(fn($i)=>str_starts_with($i->path,'samples/')))<small class="sample-image-label">تصاویر نمایشی‌اند؛ عکس کالای واقعی یا تأیید برند و مدل نیستند.</small>@endif
             <h3>مشخصات فنی (اعلام فروشنده)</h3>
             <p class="pre-line">{{ $product->specifications }}</p>
             <div class="facts">

@@ -1,0 +1,17 @@
+PASS registration wizard, back/next and persisted worker
+PASS registration wizard, back/next and persisted employer
+PASS registration wizard, back/next and persisted seller
+PASS validation/error step restoration
+PASS worker route and responsive checks
+PASS employer route and responsive checks
+PASS seller route and responsive checks
+PASS admin route and responsive checks
+PASS job wizard draft/create/edit/review/publication
+PASS apply, employer acceptance and notifications/read-all
+PASS messaging round trip
+PASS cart add/update/checkout and order detail; no bank payment
+PASS real search/filter and keyboard drawer
+PASS administrator responsive routes at 320/390/768/1440
+CHECKED 126 page visits
+BROWSER_ERRORS []
+ALL CHECKS PASSED

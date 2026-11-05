@@ -1,0 +1,12 @@
+{
+  "name": "tisheh-browser-tests",
+  "private": true,
+  "scripts": {
+    "test:browser": "node tests/Browser/e2e.cjs",
+    "test:browser:demo": "node tests/Browser/demo.cjs",
+    "test:browser:finalization": "node tests/Browser/finalization.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.64.1"
+  }
+}

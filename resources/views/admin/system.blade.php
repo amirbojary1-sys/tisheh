@@ -1,0 +1,9 @@
+@extends('layouts.admin')
+@section('page','سلامت و راه‌اندازی')
+@section('admin-content')
+<div class="admin-page-heading"><div><h1>سلامت و راه‌اندازی</h1><p>نمای محدود و فقط‌خواندنی؛ رمز، APP_KEY و مشخصات اتصال نمایش داده نمی‌شوند.</p></div><a class="button outline compact" href="{{ route('admin.system') }}">بررسی دوباره</a></div>
+<div class="panel"><h2>چک‌لیست تنظیمات انتشار</h2><p class="notice">این نشانه‌ها تضمین امنیت یا آمادگی تجاری نیستند. در محیط توسعه بعضی تنظیمات عمداً مناسب تولید نیستند. آزمون کامل CLI: <span dir="ltr">php artisan tisheh:doctor --production</span></p>
+@foreach($checks as $label=>$ok)<div class="invoice-line"><span>{{ $label }}</span><strong class="{{ $ok?'gold':'muted' }}">{{ $ok?'تنظیم مناسب':'نیازمند بررسی برای تولید' }}</strong></div>@endforeach
+</div><div class="panel"><h2>رزرو موجودی و زمان‌بندی</h2><p>سفارش‌های منتظر فروشنده با مهلت گذشته: <strong class="gold">{{ \App\Support\Format::number($expired) }}</strong></p><p>آخرین اجرای وظیفه آزادسازی: <b dir="ltr">{{ $lastRun??'هنوز ثبت نشده است' }}</b></p><p class="muted">این زمان ممکن است مربوط به اجرای دستی باشد؛ به‌تنهایی اثبات تنظیم درست Cron نیست. وظیفه هر ۵ دقیقه برنامه‌ریزی شده و cPanel باید schedule:run را هر دقیقه اجرا کند. سفارش تأییدشده خودکار لغو نمی‌شود. رزروهای قدیمی بدون مهلت نیز خودکار دستکاری نمی‌شوند.</p></div>
+<div class="panel"><h2>پیش از بهره‌برداری</h2><ul><li>دامنه HTTPS، PHP وب/CLI، دیتابیس و دسترسی فایل‌ها را کنترل کنید.</li><li>کد و .env خارج public_html باشند؛ فقط فایل‌های public و index.php در document root قرار گیرند.</li><li>پشتیبان دیتابیس، فایل‌های بارگذاری‌شده و APP_KEY را امن نگه دارید و بازیابی را تمرین کنید.</li><li>داده‌های نمونه و حساب‌های آزمایشی نباید وارد سایت عمومی واقعی شوند.</li><li>راهنمای جامع تحویلی مرجع نصب cPanel، ارتقا، خطاهای متداول و محدودیت‌هاست.</li></ul></div>
+@endsection

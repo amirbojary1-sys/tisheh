@@ -1,0 +1,1 @@
+Separate public_html launcher: home/assets/admin login/system HTTP 200; sample image fallback works with no symlink; .env/source/vendor/private paths 404. Tested with PHP development server, NOT an actual cPanel/Apache host.

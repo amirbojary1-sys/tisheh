@@ -1,0 +1,107 @@
+
+   PASS  Tests\Feature\AdministrationWorkflowTest
+  ✓ all admin sections render with real data                             0.79s  
+  ✓ nonadmin cannot open any admin section                               0.06s  
+  ✓ admin user filters and edit are real                                 0.05s  
+  ✓ admin cannot assign admin or forge verification                      0.04s  
+  ✓ used categories cannot be deleted                                    0.08s  
+  ✓ unused categories can be created updated deleted                     0.05s  
+  ✓ moderation generates private notification                            0.05s  
+  ✓ suspension removes public listings                                   0.06s  
+  ✓ admin can remove published listing with reason                       0.05s  
+  ✓ settings persist but cannot enable money                             0.05s  
+  ✓ content is editable but html is never executed                       0.04s  
+  ✓ draft content is not public                                          0.04s  
+  ✓ report response and notification are owner scoped                    0.06s  
+  ✓ report cannot reference private listing                              0.04s  
+  ✓ notifications cannot be marked by other users                        0.04s  
+  ✓ thread is unique per listing and initiator                           0.04s  
+  ✓ only conversation participants can read and write                    0.05s  
+  ✓ message is stored escaped and notified                               0.05s  
+  ✓ self conversation and pending listing thread are blocked             0.05s  
+  ✓ order reserves stock and snapshots server price                      0.05s  
+  ✓ idempotent order does not decrement stock twice                      0.05s  
+  ✓ idempotency is scoped to buyer                                       0.05s  
+  ✓ order rejects under minimum and overselling                          0.04s  
+  ✓ online payment and self purchase are rejected                        0.04s  
+  ✓ cancel restores stock once and is audited                            0.06s  
+  ✓ order lifecycle is role and transition checked                       0.08s  
+  ✓ unknown shipping requires seller quote                               0.05s  
+  ✓ order address hidden from unrelated accounts                         0.09s  
+  ✓ seller profile fields are editable                                   0.04s  
+  ✓ audit csv download and finance are not fake revenue                  0.05s  
+  ✓ settings accept empty optional contact fields                        0.04s  
+  ✓ admin can edit existing content without slug collision               0.05s  
+  ✓ display dates use persian digits                                     0.03s  
+
+   PASS  Tests\Feature\DemoIntegrationsTest
+  ✓ four digit otp form and password login coexist                       0.05s  
+  ✓ demo otp is hashed expiring and consumed without real verification   0.05s  
+  ✓ wrong otp attempts commit instead of rolling back                    0.06s  
+  ✓ expired otp does not login                                           0.04s  
+  ✓ otp accepts persian digits and rejects wrong length                  0.04s  
+  ✓ otp is bound to browser nonce                                        0.04s  
+  ✓ consumed otp cannot be replayed                                      0.04s  
+  ✓ displayed demo otp cannot access admin accounts                      0.04s  
+  ✓ unlisted users receive no demo login code                            0.04s  
+  ✓ otp send rate limit applies                                          0.04s  
+  ✓ demo can be disabled even in local environment                       0.05s  
+  ✓ demo is forcibly disabled in production                              0.04s  
+  ✓ gateway success is demo and never marks order paid                   0.06s  
+  ✓ duplicate start and completion are idempotent                        0.05s  
+  ✓ failure and cancel are separate attempts                             0.06s  
+  ✓ other users cannot start view or finish payment demo                 0.06s  
+  ✓ unknown shipping or unconfirmed order prevents demo checkout         0.05s  
+  ✓ expired attempt and changed amount are rejected                      0.05s  
+  ✓ cancelled order cannot finish demo payment                           0.05s  
+  ✓ admin can monitor but not execute buyer demo                         0.06s  
+  ✓ real gateway stub is not accidentally usable                         0.03s  
+  ✓ account suspended after otp issue cannot login                       0.04s  
+  ✓ demo service does not consume non demo challenge                     0.04s  
+  ✓ invalid outcome cannot finish attempt                                0.04s  
+  ✓ demo payment audit targets order with attempt uuid metadata          0.04s  
+
+   PASS  Tests\Feature\TishehTest
+  ✓ home is live and uses csp                                            0.05s  
+  ✓ registration normalizes persian mobile and hashes password           0.05s  
+  ✓ public cannot register as admin                                      0.03s  
+  ✓ seller requires business name and address                            0.03s  
+  ✓ duplicate mobile and weak password are rejected                      0.03s  
+  ✓ failed form preserves name but not password                          0.03s  
+  ✓ valid login and post logout                                          0.04s  
+  ✓ wrong password never authenticates                                   0.23s  
+  ✓ suspended account cannot login                                       0.23s  
+  ✓ login is rate limited                                                1.05s  
+  ✓ guest redirected from dashboard and mutations                        0.05s  
+  ✓ role permissions are server enforced                                 0.06s  
+  ✓ employer can save draft and submit for moderation                    0.05s  
+  ✓ client cannot bypass moderation                                      0.04s  
+  ✓ invalid job fields report errors                                     0.05s  
+  ✓ job private address never in public response                         0.05s  
+  ✓ pending job is not public                                            0.05s  
+  ✓ nonowner cannot edit or close job                                    0.05s  
+  ✓ worker can apply exactly once                                        0.04s  
+  ✓ employer cannot apply as worker                                      0.04s  
+  ✓ employer reviews only own applicants                                 0.05s  
+  ✓ seller can submit product but cannot publish it                      0.04s  
+  ✓ untrusted svg upload is rejected                                     0.05s  
+  ✓ nonowner cannot update product                                       0.04s  
+  ✓ product comparison rejects hidden product                            0.04s  
+  ✓ comparison displays unknown shipping as unknown                      0.04s  
+  ✓ search filters match database not static cards                       0.07s  
+  ✓ xss is escaped in public listing                                     0.04s  
+  ✓ admin moderation and suspension are audited                          0.05s  
+  ✓ admin cannot suspend self and rejection needs reason                 0.04s  
+  ✓ profile update cannot change role or verify phone                    0.04s  
+  ✓ dashboards render for all roles                                      0.09s  
+  ✓ audit log model is append only                                       0.03s  
+  ✓ financial services are not enabled                                   0.03s  
+  ✓ optional wage and shipping remain null                               0.05s  
+  ✓ zero stock is a valid seller update                                  0.04s  
+  ✓ array mobile payload is validation error not server error            0.04s  
+  ✓ valid uploaded image is reencoded and persisted                      0.04s  
+  ✓ money display does not round away single rial                        0.04s  
+
+  Tests:    97 passed (395 assertions)
+  Duration: 6.73s
+

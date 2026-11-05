@@ -1,0 +1,4 @@
+Upload product → admin in_review → published → order → changed shipping → explicit buyer quote acceptance → demo success
+Seller can delete own product image through real form
+New disposable worker registration → current-password change → logout → new password login
+System monitor, image manager, quote form, job filters: 390/768/1440 no horizontal overflow; JS exceptions: 0

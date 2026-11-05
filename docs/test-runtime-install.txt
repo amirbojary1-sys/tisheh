@@ -1,0 +1,109 @@
+Fresh no-dev Composer install; independent blank MariaDB schema; production config.
+
+   INFO  Application key set successfully.  
+
+
+   INFO  Preparing database.  
+
+  Creating migration table ...................................... 15.16ms DONE
+
+   INFO  Running migrations.  
+
+  0001_01_01_000000_create_users_table .......................... 23.84ms DONE
+  0001_01_01_000001_create_cache_table .......................... 16.28ms DONE
+  0001_01_01_000002_create_jobs_table ........................... 43.02ms DONE
+  2026_10_24_000001_create_tisheh_foundation ................... 301.68ms DONE
+  2026_10_24_000002_expand_administration_and_workflows ........ 191.14ms DONE
+  2026_10_24_000003_scope_order_idempotency ..................... 15.12ms DONE
+  2026_10_24_000004_add_demo_otp_and_gateway .................... 43.67ms DONE
+  2026_10_24_000005_finalize_web_operations ..................... 66.42ms DONE
+
+
+   INFO  Seeding database.  
+
+  Database\Seeders\ContentSeeder ..................................... RUNNING  
+  Database\Seeders\ContentSeeder ................................... 3 ms DONE  
+
+
+ نام مدیر:
+ > 
+ موبایل 09xxxxxxxxx:
+ > 
+ رمز عبور (حداقل ۱۲ نویسه، حروف بزرگ، کوچک و عدد):
+ > 
+
+مدیر ساخته شد. تأیید شماره موبایل انجام نشده است.
++--------+--------------------------------------+------------------+
+| Result | Check                                | Action if failed |
++--------+--------------------------------------+------------------+
+| OK     | PHP >= 8.2                           | —                |
+| OK     | PHP extension: pdo                   | —                |
+| OK     | PHP extension: pdo_mysql             | —                |
+| OK     | PHP extension: mbstring              | —                |
+| OK     | PHP extension: openssl               | —                |
+| OK     | PHP extension: fileinfo              | —                |
+| OK     | PHP extension: ctype                 | —                |
+| OK     | PHP extension: tokenizer             | —                |
+| OK     | PHP extension: xml                   | —                |
+| OK     | PHP extension: dom                   | —                |
+| OK     | PHP extension: gd                    | —                |
+| OK     | PHP extension: session               | —                |
+| OK     | PHP extension: filter                | —                |
+| OK     | GD WebP                              | —                |
+| OK     | APP_KEY valid                        | —                |
+| OK     | Writable: storage                    | —                |
+| OK     | Writable: storage/framework/views    | —                |
+| OK     | Writable: storage/framework/sessions | —                |
+| OK     | Writable: storage/framework/cache    | —                |
+| OK     | Writable: bootstrap/cache            | —                |
+| OK     | Database connection                  | —                |
+| OK     | Table: users                         | —                |
+| OK     | Table: roles                         | —                |
+| OK     | Table: sessions                      | —                |
+| OK     | Table: cache                         | —                |
+| OK     | Table: material_orders               | —                |
+| OK     | Table: otp_challenges                | —                |
+| OK     | Table: demo_payment_attempts         | —                |
+| OK     | r0.4 schema                          | —                |
+| OK     | Roles seeded                         | —                |
+| OK     | Active administrator                 | —                |
+| OK     | Document root exists                 | —                |
+| OK     | Private app is outside document root | —                |
+| OK     | Not public: .env                     | —                |
+| OK     | Not public: composer.json            | —                |
+| OK     | Not public: artisan                  | —                |
+| OK     | Not public: vendor                   | —                |
+| OK     | Not public: tisheh-source.zip        | —                |
+| OK     | Public launcher                      | —                |
+| OK     | APP_ENV=production                   | —                |
+| OK     | APP_DEBUG=false                      | —                |
+| OK     | HTTPS APP_URL                        | —                |
+| OK     | Secure encrypted sessions            | —                |
+| OK     | Demo disabled                        | —                |
+| OK     | Proxy allowlist is not wildcard      | —                |
+| OK     | Frame policy not wildcard            | —                |
++--------+--------------------------------------+------------------+
+Manual checks still required: web PHP matches CLI; HTTPS; /storage image loading; cron; backup/restore; domain access controls.
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Routes cached successfully.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+Fresh no-dev production configuration HTTP smoke (local HTTP only; destination TLS is NOT tested):
+/: 200
+/login: 200
+/register: 200
+/jobs: 200
+/materials: 200
+/login/otp: 200
+/login/otp/code: 503
+/.env: 404
+/vendor/autoload.php: 404
+/storage/private/test.txt: 404
+No default accounts; administrator created interactively with a private random password.

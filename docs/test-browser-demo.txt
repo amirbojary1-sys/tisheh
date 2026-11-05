@@ -1,0 +1,5 @@
+Four-digit OTP form → random demo code → authenticated dashboard; no SMS or phone-verification claim
+Demo checkout: no card fields; another account cannot view attempt (403)
+Failure → new attempt → cancel → new attempt → success; commercial payment still unverified
+Admin demo-attempts monitor renders persisted attempts; OTP/checkout/admin fit 390,768,1440
+JavaScript exceptions: 0

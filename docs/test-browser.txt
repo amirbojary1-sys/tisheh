@@ -1,0 +1,10 @@
+13 admin routes: HTTP 200
+All 13 admin sections: no horizontal document overflow at 390 / 768 / 1440
+Public pages: responsive and no broken images at 390 / 768 / 1440
+Settings saved with empty optional fields
+Two-party messaging and reply persisted
+Unrelated thread access: blocked (403)
+Direct order → confirmation → ready → shipped → buyer-delivered; payment remains unverified
+Support request → admin response → user tracking and database notification
+Private mobile panels: no horizontal document overflow
+JavaScript exceptions: 0
